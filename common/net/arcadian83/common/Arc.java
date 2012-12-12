@@ -59,7 +59,7 @@ public class Arc {
 		GameRegistry.registerBlock(dirtSlope, ItemDirtSlope.class);
 		LanguageRegistry.addName(dirtSlope, "Dirt Slope");
 		dirtSlope.setStepSound(Block.soundGravelFootstep);
-		
+		GameRegistry.registerTileEntity(ExtraMetadata.class, "extraMetadata");
 		
 		
 		Iterator it = BlockDirtSlope.metaNames.entrySet().iterator();	

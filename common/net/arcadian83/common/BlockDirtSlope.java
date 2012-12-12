@@ -3,21 +3,18 @@ package net.arcadian83.common;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
-import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.CreativeTabs;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityLiving;
 import net.minecraft.src.IBlockAccess;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
+import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
 
-public class BlockDirtSlope extends Block{
-	
+public class BlockDirtSlope extends Block {
+
 	// named after the direction the slope faces outward toward
 	public static HashMap<Integer, String> metaNames = new HashMap<Integer, String>() {
 		{
@@ -67,208 +64,58 @@ public class BlockDirtSlope extends Block{
 			put(43, "Dirt Oblique Slope BottomSouthWest");
 		};
 	};
-	
+
 	public BlockDirtSlope(int id, int texture) {
 		super(id, texture, Material.ground);
 		this.setCreativeTab(CreativeTabs.tabBlock);
 		this.blockIndexInTexture = 2;
 		setLightOpacity(0);
 	}
-	
-	public int getRenderType()
-    {
-        return Arc.dirtSlopeRenderId;
-    } 
-	
-	public boolean isOpaqueCube()
-    {
-        return false;
-    }	
-	
-    public boolean renderAsNormalBlock()
-    {
-        return false;
-    }
-	
-	public boolean shouldSideBeRendered(IBlockAccess iblockaccess, int i, int j, int k, int l)
-    {        
-        return true;        
-    }
-	
-	// from BlockSlopes_Kaevator
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving placer)
-	{		
-		int oldmeta = world.getBlockMetadata(x, y, z);
-		int l;
-		
-		if(oldmeta == 12){
-			l = (int)((double)((placer.rotationYaw * 4F) / 360F)) & 3;
-			
-		}
-		else{
-		l = (int)((double)((placer.rotationYaw * 4F) / 360F) + 0.5D) & 3;
-		}
-		
-		if(l == 0)
-		{
-			world.setBlockMetadataWithNotify(x, y, z, 2 + oldmeta );
-		}
-		if(l == 1)
-		{
-			world.setBlockMetadataWithNotify(x, y, z, 1 + oldmeta );
-		}
-		if(l == 2)
-		{
-			world.setBlockMetadataWithNotify(x, y, z, 3 + oldmeta );
-		}
-		if(l == 3)
-		{
-			world.setBlockMetadataWithNotify(x, y, z, 0 + oldmeta );
-		}		
-	}
-	
-	// from BlockSlopes_Kaevator, seems unused
-	/*protected int func_21025_b(int i)
-    {
-		if(i == 0 || i == 1 || i == 2 || i == 3)        {            return 0;        }
-		if(i == 4 || i == 5 || i == 6 || i == 7)        {            return 4;        }
-		if(i == 8 || i == 9 || i == 10 || i == 11)      {            return 8;        }
-		if(i == 12 || i == 13 || i == 14 || i == 15) {            return 12;        }
-		else { return i; }
-    }	*/
-	
-	// from BlockSlopes_Kaevator
-	public int damageDropped(int i)
-	{
-		if(i == 0 || i == 1 || i == 2 || i == 3)        {            return 0;        }
-		if(i == 4 || i == 5 || i == 6 || i == 7)        {            return 4;        }
-		if(i == 8 || i == 9 || i == 10 || i == 11)      {            return 8;        }
-		if(i == 12 || i == 13 || i == 14 || i == 15) {            return 12;        }
-		else { return i; }
-	}
-	
-	// was BlockSlopes_Kaevator.getCollidingBoundingBoxes 
-	public void addCollidingBlockToList(World world, int i, int j, int k, AxisAlignedBB axisalignedbb, List arraylist, Entity entity)
-    {
-        int l = world.getBlockMetadata(i, j, k);
-        if(l == 0)
-        {
-            setBlockBounds(0.0F, 0.5F, 0.0F, 0.5F, 1.0F, 1.0F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-            setBlockBounds(0.5F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-        } else
-        if(l == 1)
-        {
-            setBlockBounds(0.0F, 0.0F, 0.0F, 0.5F, 1.0F, 1.0F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-            setBlockBounds(0.5F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-        } else
-        if(l == 2)
-        {
-            setBlockBounds(0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 0.5F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-            setBlockBounds(0.0F, 0.0F, 0.5F, 1.0F, 1.0F, 1.0F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-        } else
-        if(l == 3)
-        {
-            setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.5F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-            setBlockBounds(0.0F, 0.5F, 0.5F, 1.0F, 1.0F, 1.0F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-        }else
-        if(l == 4)
-        {
-            setBlockBounds(0.0F, 0.0F, 0.0F, 0.5F, 0.5F, 1.0F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-            setBlockBounds(0.5F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-        } else
-        if(l == 5)
-        {
-            setBlockBounds(0.0F, 0.0F, 0.0F, 0.5F, 1.0F, 1.0F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-            setBlockBounds(0.5F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-        } else
-        if(l == 6)
-        {
-            setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 0.5F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-            setBlockBounds(0.0F, 0.0F, 0.5F, 1.0F, 1.0F, 1.0F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-        } else
-        if(l == 7)
-        {
-            setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.5F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-            setBlockBounds(0.0F, 0.0F, 0.5F, 1.0F, 0.5F, 1.0F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-        }else
-		if(l == 8)
-        {
-            setBlockBounds(0.0F, 0.5F, 0.0F, 0.5F, 1.0F, 1.0F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-            setBlockBounds(0.5F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-        } else
-        if(l == 9)
-        {
-            setBlockBounds(0.0F, 0.0F, 0.0F, 0.5F, 1.0F, 1.0F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-            setBlockBounds(0.5F, 0.5F, 0.0F, 1.0F, 1.0F, 1.0F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-        } else
-        if(l == 10)
-        {
-            setBlockBounds(0.0F, 0.5F, 0.0F, 1.0F, 1.0F, 0.5F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-            setBlockBounds(0.0F, 0.0F, 0.5F, 1.0F, 1.0F, 1.0F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-        } else
-        if(l == 11)
-        {
-            setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.5F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-            setBlockBounds(0.0F, 0.5F, 0.5F, 1.0F, 1.0F, 1.0F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);
-        }else
-		if(l == 12)
-        {
-			setBlockBounds(0.5F, 0.0F, 0.5F, 1.0F, 1.0F, 1.0F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);                    
-        } else
-        if(l == 13)
-        {
-        	setBlockBounds(0.0F, 0.0F, 0.0F, 0.5F, 1.0F, 0.5F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);            
-        } else
-        if(l == 14)
-        {
-        	setBlockBounds(0.0F, 0.0F, 0.5F, 0.5F, 1.0F, 1.0F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);            
-        } else
-        if(l == 15)
-        {	
-        	setBlockBounds(0.5F, 0.0F, 0.0F, 1.0F, 1.0F, 0.5F);
-            super.addCollidingBlockToList(world, i, j, k, axisalignedbb, arraylist, entity);              
-        }
-		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-    }
-	
-	public void getSubBlocks(int i, CreativeTabs tab, List list)
-	{
-		Iterator it = metaNames.entrySet().iterator();
-		
-		while (it.hasNext()) {
-	        Entry entry = (Entry)it.next();
-	        list.add(new ItemStack(i, 1, (Integer)entry.getKey()));
-	        //i.remove(); // avoids a ConcurrentModificationException
-	    }
+
+	public int getRenderType() {
+		return Arc.dirtSlopeRenderId;
 	}
 
-	
+	public boolean isOpaqueCube() {
+		return false;
+	}
+
+	public boolean renderAsNormalBlock() {
+		return false;
+	}
+
+	public boolean shouldSideBeRendered(IBlockAccess iblockaccess, int i,
+			int j, int k, int l) {
+		return true;
+	}
+
+	public void getSubBlocks(int i, CreativeTabs tab, List list) {
+		Iterator it = metaNames.entrySet().iterator();
+
+		while (it.hasNext()) {
+			Entry entry = (Entry) it.next();
+			list.add(new ItemStack(i, 1, (Integer) entry.getKey()));
+			// i.remove(); // avoids a ConcurrentModificationException
+		}
+	}
+
+	public boolean hasTileEntity(int metadata) {
+		return true;
+	}
+
+	@Override
+	public TileEntity createTileEntity(World world, int metadata) {
+		try {
+			return new ExtraMetadata();
+		} catch (Exception var3) {
+			throw new RuntimeException(var3);
+		}
+	}
+
+	public void onSetBlockIDWithMetaData(World world, int x, int y, int z, int meta) {
+		ExtraMetadata tileEntity = (ExtraMetadata) world.getBlockTileEntity(x, y, z);
+		tileEntity.setMeta(meta);
+	}
+
 	// TODO: place block with direction based on from BlockSlopes_Kaevator.blockActivated()
 }
