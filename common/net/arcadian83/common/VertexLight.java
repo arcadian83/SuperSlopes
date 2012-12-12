@@ -44,7 +44,8 @@ public class VertexLight {
     		for(int yRel = -1; yRel <= 1; yRel++) {
     			for(int xRel = -1; xRel <= 1; xRel++) {
     				Tuple tuple = new Tuple(xRel, yRel, zRel);
-    				if(tuple.facesDirection(direction) && tuple.surroundsCorner(corner)){
+    				//if(tuple.facesDirection(direction) && tuple.surroundsCorner(corner)){
+    				if(tuple.inDirectionAndCorner(direction, corner)){
     					tuples.add(tuple);
     					if(tuple.isCenterOfFace()) main = tuple;
     				}

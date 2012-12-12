@@ -78,67 +78,97 @@ public class RenderDirtSlope implements ISimpleBlockRenderingHandler {
         
         
         switch(meta) {
+        
+        case 29: // Dirt Slant Slope TopNorthEast
+        	
+        	VertexLight.addVertex(bottomFace, Direction.down, coordinates, new Tuple(0,0,0), texUmin, texVmin, aoBrightness);
+            VertexLight.addVertex(bottomFace, Direction.down, coordinates, new Tuple(1,0,0), texUmax, texVmin, aoBrightness);
+            VertexLight.addVertex(bottomFace, Direction.down, coordinates, new Tuple(0,0,1), texUmax, texVmax, aoBrightness);
+            VertexLight.addVertex(bottomFace, Direction.down, coordinates, new Tuple(0,0,1), texUmax, texVmax, aoBrightness);
+            
+            VertexLight.addVertex(southFace, Direction.south, coordinates, new Tuple(0,1,1), texUmin, texVmin, aoBrightness);
+            VertexLight.addVertex(southFace, Direction.south, coordinates, new Tuple(0,0,1), texUmin, texVmax, aoBrightness);
+            VertexLight.addVertex(southFace, Direction.south, coordinates, new Tuple(1,0,1), texUmax, texVmax, aoBrightness);
+            VertexLight.addVertex(southFace, Direction.south, coordinates, new Tuple(1,0,1), texUmax, texVmax, aoBrightness);
+            
+            
+
+            VertexLight.addVertex(westFace, Direction.west, coordinates, new Tuple(0,1,1), texUmax, texVmin, aoBrightness);
+            VertexLight.addVertex(westFace, Direction.west, coordinates, new Tuple(0,0,0), texUmin, texVmax, aoBrightness);
+            VertexLight.addVertex(westFace, Direction.west, coordinates, new Tuple(0,0,1), texUmax, texVmax, aoBrightness);
+            VertexLight.addVertex(westFace, Direction.west, coordinates, new Tuple(0,0,1), texUmax, texVmax, aoBrightness);
+            
+            VertexLight.addVertex(slopeFace, Direction.up, coordinates, new Tuple(0,1,1), texUmin, texVmax, aoBrightness);
+            VertexLight.addVertex(slopeFace, Direction.up, coordinates, new Tuple(1,0,1), texUmax, texVmax, aoBrightness);
+            VertexLight.addVertex(slopeFace, Direction.up, coordinates, new Tuple(1,0,1), texUmax, texVmax, aoBrightness);
+            VertexLight.addVertex(slopeFace, Direction.up, coordinates, new Tuple(0,0,0), texUmin, texVmin, aoBrightness);
+            
+            
+        	
+        	break;
+        
         case 38: // Dirt Oblique Slope TopSouthEast
         
-            VertexLight.addVertex(bottomFace, 0, coordinates, new Tuple(0,0,0), texUmin, texVmin, aoBrightness);
-            VertexLight.addVertex(bottomFace, 0, coordinates, new Tuple(1,0,0), texUmax, texVmin, aoBrightness);
-            VertexLight.addVertex(bottomFace, 0, coordinates, new Tuple(1,0,1), texUmax, texVmax, aoBrightness);
-            VertexLight.addVertex(bottomFace, 0, coordinates, new Tuple(0,0,1), texUmin, texVmax, aoBrightness);
+            VertexLight.addVertex(bottomFace, Direction.down, coordinates, new Tuple(0,0,0), texUmin, texVmin, aoBrightness);
+            VertexLight.addVertex(bottomFace, Direction.down, coordinates, new Tuple(1,0,0), texUmax, texVmin, aoBrightness);
+            VertexLight.addVertex(bottomFace, Direction.down, coordinates, new Tuple(1,0,1), texUmax, texVmax, aoBrightness);
+            VertexLight.addVertex(bottomFace, Direction.down, coordinates, new Tuple(0,0,1), texUmin, texVmax, aoBrightness);
             
-            VertexLight.addVertex(topFace, 1, coordinates, new Tuple(0,1,0), texUmin, texVmin, aoBrightness);
-            VertexLight.addVertex(topFace, 1, coordinates, new Tuple(0,1,1), texUmax, texVmin, aoBrightness);
-            VertexLight.addVertex(topFace, 1, coordinates, new Tuple(0,1,1), texUmax, texVmin, aoBrightness);
-            VertexLight.addVertex(topFace, 1, coordinates, new Tuple(1,1,0), texUmin, texVmax, aoBrightness);
+            VertexLight.addVertex(topFace, Direction.up, coordinates, new Tuple(0,1,0), texUmin, texVmin, aoBrightness);
+            VertexLight.addVertex(topFace, Direction.up, coordinates, new Tuple(0,1,1), texUmax, texVmin, aoBrightness);
+            VertexLight.addVertex(topFace, Direction.up, coordinates, new Tuple(0,1,1), texUmax, texVmin, aoBrightness);
+            VertexLight.addVertex(topFace, Direction.up, coordinates, new Tuple(1,1,0), texUmin, texVmax, aoBrightness);
             
-            VertexLight.addVertex(northFace, 1, coordinates, new Tuple(0,1,0), texUmin, texVmin, aoBrightness);
-            VertexLight.addVertex(northFace, 1, coordinates, new Tuple(1,1,0), texUmax, texVmin, aoBrightness);
-            VertexLight.addVertex(northFace, 3, coordinates, new Tuple(1,0,0), texUmax, texVmax, aoBrightness);
-            VertexLight.addVertex(northFace, 3, coordinates, new Tuple(0,0,0), texUmin, texVmax, aoBrightness);
+            VertexLight.addVertex(northFace, Direction.north, coordinates, new Tuple(0,1,0), texUmin, texVmin, aoBrightness);
+            VertexLight.addVertex(northFace, Direction.north, coordinates, new Tuple(1,1,0), texUmax, texVmin, aoBrightness);
+            VertexLight.addVertex(northFace, Direction.north, coordinates, new Tuple(1,0,0), texUmax, texVmax, aoBrightness);
+            VertexLight.addVertex(northFace, Direction.north, coordinates, new Tuple(0,0,0), texUmin, texVmax, aoBrightness);
 
-            VertexLight.addVertex(southFace, 1, coordinates, new Tuple(0,1,1), texUmin, texVmin, aoBrightness);
-            VertexLight.addVertex(southFace, 1, coordinates, new Tuple(0,1,1), texUmin, texVmin, aoBrightness);
-            VertexLight.addVertex(southFace, 2, coordinates, new Tuple(0,0,1), texUmin, texVmax, aoBrightness);
-            VertexLight.addVertex(southFace, 2, coordinates, new Tuple(1,0,1), texUmax, texVmax, aoBrightness);
+            VertexLight.addVertex(southFace, Direction.south, coordinates, new Tuple(0,1,1), texUmin, texVmin, aoBrightness);
+            VertexLight.addVertex(southFace, Direction.south, coordinates, new Tuple(0,1,1), texUmin, texVmin, aoBrightness);
+            VertexLight.addVertex(southFace, Direction.south, coordinates, new Tuple(0,0,1), texUmin, texVmax, aoBrightness);
+            VertexLight.addVertex(southFace, Direction.south, coordinates, new Tuple(1,0,1), texUmax, texVmax, aoBrightness);
             
-            VertexLight.addVertex(eastFace, 1, coordinates, new Tuple(1,1,0), texUmin, texVmin, aoBrightness);
-            VertexLight.addVertex(eastFace, 1, coordinates, new Tuple(1,1,0), texUmin, texVmin, aoBrightness);
-            VertexLight.addVertex(eastFace, 5, coordinates, new Tuple(1,0,1), texUmax, texVmax, aoBrightness);
-            VertexLight.addVertex(eastFace, 5, coordinates, new Tuple(1,0,0), texUmin, texVmax, aoBrightness);
+            VertexLight.addVertex(eastFace, Direction.east, coordinates, new Tuple(1,1,0), texUmin, texVmin, aoBrightness);
+            VertexLight.addVertex(eastFace, Direction.east, coordinates, new Tuple(1,1,0), texUmin, texVmin, aoBrightness);
+            VertexLight.addVertex(eastFace, Direction.east, coordinates, new Tuple(1,0,1), texUmax, texVmax, aoBrightness);
+            VertexLight.addVertex(eastFace, Direction.east, coordinates, new Tuple(1,0,0), texUmin, texVmax, aoBrightness);
             
-            VertexLight.addVertex(westFace, 4, coordinates, new Tuple(0,0,0), texUmin, texVmin, aoBrightness);
-            VertexLight.addVertex(westFace, 4, coordinates, new Tuple(0,0,1), texUmin, texVmax, aoBrightness);
-            VertexLight.addVertex(westFace, 4, coordinates, new Tuple(0,1,1), texUmax, texVmax, aoBrightness);
-            VertexLight.addVertex(westFace, 4, coordinates, new Tuple(0,1,0), texUmax, texVmin, aoBrightness);
+            VertexLight.addVertex(westFace, Direction.west, coordinates, new Tuple(0,0,0), texUmin, texVmin, aoBrightness);
+            VertexLight.addVertex(westFace, Direction.west, coordinates, new Tuple(0,0,1), texUmin, texVmax, aoBrightness);
+            VertexLight.addVertex(westFace, Direction.west, coordinates, new Tuple(0,1,1), texUmax, texVmax, aoBrightness);
+            VertexLight.addVertex(westFace, Direction.west, coordinates, new Tuple(0,1,0), texUmax, texVmin, aoBrightness);
 
-            VertexLight.addVertex(slopeFace, 1, coordinates, new Tuple(1,1,0), texUmin, texVmax, aoBrightness);
-            VertexLight.addVertex(slopeFace, 2, coordinates, new Tuple(1,0,1), texUmax, texVmax, aoBrightness);
-            VertexLight.addVertex(slopeFace, 1, coordinates, new Tuple(0,1,1), texUmax, texVmin, aoBrightness);
-        	VertexLight.addVertex(slopeFace, 2, coordinates, new Tuple(1,0,1), texUmax, texVmax, aoBrightness);
+            VertexLight.addVertex(slopeFace, Direction.up, coordinates, new Tuple(1,1,0), texUmin, texVmax, aoBrightness);
+            VertexLight.addVertex(slopeFace, Direction.up, coordinates, new Tuple(1,0,1), texUmax, texVmax, aoBrightness);
+            VertexLight.addVertex(slopeFace, Direction.up, coordinates, new Tuple(0,1,1), texUmax, texVmin, aoBrightness);
+        	VertexLight.addVertex(slopeFace, Direction.up, coordinates, new Tuple(1,0,1), texUmax, texVmax, aoBrightness);
       
             break;
         
         default: // Dirt Slant Slope TopSouthEast
-        	      
-            VertexLight.addVertex(slopeFace, 1, coordinates, new Tuple(0,1,0), texUmin, texVmin, aoBrightness);
-            VertexLight.addVertex(slopeFace, 2, coordinates, new Tuple(0,0,1), texUmin, texVmax, aoBrightness);
-            VertexLight.addVertex(slopeFace, 5, coordinates, new Tuple(1,0,0), texUmax, texVmin, aoBrightness);
-            VertexLight.addVertex(slopeFace, 5, coordinates, new Tuple(1,0,0), texUmax, texVmin, aoBrightness);
-
-            VertexLight.addVertex(northFace, 3, coordinates, new Tuple(0,1,0), texUmin, texVmin, aoBrightness);
-            VertexLight.addVertex(northFace, 3, coordinates, new Tuple(1,0,0), texUmax, texVmax, aoBrightness);
-            VertexLight.addVertex(northFace, 3, coordinates, new Tuple(1,0,0), texUmax, texVmax, aoBrightness);
-            VertexLight.addVertex(northFace, 3, coordinates, new Tuple(0,0,0), texUmin, texVmax, aoBrightness);
-
-            VertexLight.addVertex(westFace, 4, coordinates, new Tuple(0,1,0), texUmin, texVmin, aoBrightness);
-            VertexLight.addVertex(westFace, 4, coordinates, new Tuple(0,0,0), texUmin, texVmax, aoBrightness);
-            VertexLight.addVertex(westFace, 4, coordinates, new Tuple(0,0,1), texUmax, texVmax, aoBrightness);
-            VertexLight.addVertex(westFace, 4, coordinates, new Tuple(0,0,1), texUmax, texVmax, aoBrightness);
+        	
+        	VertexLight.addVertex(bottomFace, Direction.down, coordinates, new Tuple(0,0,0), texUmin, texVmin, aoBrightness);
+            VertexLight.addVertex(bottomFace, Direction.down, coordinates, new Tuple(1,0,0), texUmax, texVmin, aoBrightness);
+            VertexLight.addVertex(bottomFace, Direction.down, coordinates, new Tuple(0,0,1), texUmax, texVmax, aoBrightness);
+            VertexLight.addVertex(bottomFace, Direction.down, coordinates, new Tuple(0,0,1), texUmax, texVmax, aoBrightness);
             
-            VertexLight.addVertex(bottomFace, 0, coordinates, new Tuple(0,0,0), texUmin, texVmin, aoBrightness);
-            VertexLight.addVertex(bottomFace, 0, coordinates, new Tuple(1,0,0), texUmax, texVmin, aoBrightness);
-            VertexLight.addVertex(bottomFace, 0, coordinates, new Tuple(0,0,1), texUmax, texVmax, aoBrightness);
-            VertexLight.addVertex(bottomFace, 0, coordinates, new Tuple(0,0,1), texUmax, texVmax, aoBrightness);
+            VertexLight.addVertex(northFace, Direction.north, coordinates, new Tuple(0,1,0), texUmin, texVmin, aoBrightness);
+            VertexLight.addVertex(northFace, Direction.north, coordinates, new Tuple(1,0,0), texUmax, texVmax, aoBrightness);
+            VertexLight.addVertex(northFace, Direction.north, coordinates, new Tuple(1,0,0), texUmax, texVmax, aoBrightness);
+            VertexLight.addVertex(northFace, Direction.north, coordinates, new Tuple(0,0,0), texUmin, texVmax, aoBrightness);
 
+            VertexLight.addVertex(westFace, Direction.west, coordinates, new Tuple(0,1,0), texUmin, texVmin, aoBrightness);
+            VertexLight.addVertex(westFace, Direction.west, coordinates, new Tuple(0,0,0), texUmin, texVmax, aoBrightness);
+            VertexLight.addVertex(westFace, Direction.west, coordinates, new Tuple(0,0,1), texUmax, texVmax, aoBrightness);
+            VertexLight.addVertex(westFace, Direction.west, coordinates, new Tuple(0,0,1), texUmax, texVmax, aoBrightness);
+            
+            VertexLight.addVertex(slopeFace, Direction.up, coordinates, new Tuple(0,1,0), texUmin, texVmin, aoBrightness);
+            VertexLight.addVertex(slopeFace, Direction.up, coordinates, new Tuple(0,0,1), texUmin, texVmax, aoBrightness);
+            VertexLight.addVertex(slopeFace, Direction.up, coordinates, new Tuple(1,0,0), texUmax, texVmin, aoBrightness);
+            VertexLight.addVertex(slopeFace, Direction.up, coordinates, new Tuple(1,0,0), texUmax, texVmin, aoBrightness);
+
+            
         	break;
         }
         

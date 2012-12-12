@@ -63,10 +63,10 @@ public class Tuple implements Comparable<Tuple> {
 		switch(direction) {
 			case 0: return (y == -1);
 			case 1: return (y ==  1);
-			case 2: return (z ==  1);
-			case 3: return (z == -1);
-			case 4: return (x == -1);
-			case 5: return (x ==  1);
+			case 2: return (z == -1);
+			case 3: return (z ==  1);
+			case 4: return (x ==  1);
+			case 5: return (x == -1);
 		}
 		
 		return false;
@@ -81,6 +81,25 @@ public class Tuple implements Comparable<Tuple> {
 		if(corner.z == -1 && z ==  1) return false;
 		if(corner.z ==  1 && z == -1) return false;
 		return true;
+	}
+	
+	// returns true for 4 out of the 27 possible tuples:
+	// those on the side of the given direction,
+	// and regardless of whether "corner" is in the direction 
+	// those touching "corner" if it were in the direction
+	public boolean inDirectionAndCorner(int direction, Tuple corner) {
+		
+		if (!this.facesDirection(direction)) return false;
+		
+		Tuple scratch = new Tuple(corner);
+		if(direction == Direction.up) scratch.y = 1;
+		if(direction == Direction.down) scratch.y = -1;
+		if(direction == Direction.north) scratch.z = -1;
+		if(direction == Direction.south) scratch.z = 1;
+		if(direction == Direction.east) scratch.y = 1;
+		if(direction == Direction.west) scratch.y = -1;
+		
+		return surroundsCorner(scratch);
 	}
 	
 	public boolean isCenterOfFace() {
