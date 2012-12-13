@@ -1,7 +1,6 @@
 package net.arcadian83.common;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 public class Tuple implements Comparable<Tuple> {
 	public Integer x;
@@ -108,5 +107,95 @@ public class Tuple implements Comparable<Tuple> {
 		if(y == 0) numberOfZeros++;
 		if(z == 0) numberOfZeros++;
 		return (numberOfZeros == 2);
+	}
+	
+	// direction = down will return bottom face
+	// results ordered for drawing with the texture facing outward
+	public static ArrayList<Tuple> getFaceVertexesOfCube(int direction) {
+	/*ArrayList<Tuple> bottomVertexes = new ArrayList<Tuple>() {{
+		add(new Tuple(0,0,0));
+	    add(new Tuple(0,0,1));
+	    add(new Tuple(1,0,1));
+	    add(new Tuple(1,0,0));
+	}};*/
+		ArrayList<Integer> x = new ArrayList<Integer>();
+		ArrayList<Integer> y = new ArrayList<Integer>();
+		ArrayList<Integer> z = new ArrayList<Integer>();
+		switch(direction) {
+			case Direction.down:
+				return new ArrayList<Tuple>() {{
+					add(new Tuple(0,0,0));
+					add(new Tuple(1,0,0));
+					add(new Tuple(1,0,1));
+					add(new Tuple(0,0,1));
+				}};
+			case Direction.up:
+				return new ArrayList<Tuple>() {{
+					add(new Tuple(0,1,0));
+					add(new Tuple(1,1,0));
+					add(new Tuple(1,1,1));
+					add(new Tuple(0,1,1));
+				}};
+			case Direction.north:
+				return new ArrayList<Tuple>() {{
+					add(new Tuple(1,0,0));
+					add(new Tuple(0,0,0));
+					add(new Tuple(0,1,0));
+					add(new Tuple(1,1,0)); 
+				}};
+			case Direction.south:
+				return new ArrayList<Tuple>() {{
+					add(new Tuple(1,0,1));
+				    add(new Tuple(1,1,1));
+				    add(new Tuple(0,1,1));
+				    add(new Tuple(0,0,1));
+				}};
+			case Direction.east:
+				return new ArrayList<Tuple>() {{
+					add(new Tuple(1,0,1));
+				    add(new Tuple(1,1,1));
+				    add(new Tuple(1,1,0));
+				    add(new Tuple(1,0,0));
+				}};
+			case Direction.west:
+			default:
+				return new ArrayList<Tuple>() {{
+					add(new Tuple(0,0,1));
+				    add(new Tuple(0,1,1));
+				    add(new Tuple(0,1,0));
+				    add(new Tuple(0,0,0));
+				}};		
+		}
+	}
+	
+	// given direction facing outward
+	// returns U-offset for a texture
+	public double getTextureU(int direction) {
+		switch(direction) {
+		case Direction.down:
+		case Direction.up:
+			return x;
+		case Direction.north:
+			return 1-x;
+		case Direction.south:
+			return x;
+		case Direction.east:
+			return z;
+		case Direction.west:
+			return 1-z;
+		}
+		return -1; // TODO: proper handling of bad direction
+	}
+	
+	// given direction facing outward
+	// returns U-offset for a texture
+	public double getTextureV(int direction) {
+		switch (direction) {
+		case Direction.down:
+		case Direction.up:
+			return z;
+		default:
+			return y;
+		}
 	}
 }

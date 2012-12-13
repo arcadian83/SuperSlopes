@@ -1,6 +1,9 @@
 package net.arcadian83.common;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.ListIterator;
 
 import net.minecraft.src.Block;
 import net.minecraft.src.IBlockAccess;
@@ -53,8 +56,10 @@ public class RenderDirtSlope implements ISimpleBlockRenderingHandler {
     			aoLightValue.get(new Tuple(0,-1, 1)) +
     			aoLightValue.get(new Tuple(0,-1, 0))) / 4.0F;
 
+    	
     	// TODO calculate these from texture number
-        double texUmin = 0.125;
+    	int texture = 3;
+    	double texUmin = 0.125;
         double texUmax = 0.1875;
         double texVmin = 0;
         double texVmax = 0.0625;
@@ -148,6 +153,29 @@ public class RenderDirtSlope implements ISimpleBlockRenderingHandler {
         
         default: // Dirt Slant Slope TopSouthEast
         	
+        	ArrayList<Tuple> vertexesToRemove = new ArrayList<Tuple>() {{
+        		add(new Tuple(1,0,1));
+        		add(new Tuple(1,1,0));
+        		add(new Tuple(0,1,1));
+        		add(new Tuple(1,1,1));
+        	};};
+        	ArrayList<SlopeFace> slopes = new ArrayList<SlopeFace>();
+        	slopes.add(new SlopeFace() {{
+        		vertexes.add(new Tuple(1,0,0));
+        		vertexes.add(new Tuple(0,1,0));
+        		vertexes.add(new Tuple(0,1,0));
+        		vertexes.add(new Tuple(0,0,1));
+        		direction = Direction.up;
+        	};});
+        	renderSlopedBlock(slopes, vertexesToRemove, coordinates, texture, texture, texture, aoBrightness);
+        	
+        	/*HashMap<Tuple, Tuple> slopeDeformations = new HashMap<Tuple, Tuple>();
+        	slopeDeformations.put(new Tuple(1,0,1), new Tuple(0,0,1));
+        	slopeDeformations.put(new Tuple(1,1,0), new Tuple(1,0,0));
+        	slopeDeformations.put(new Tuple(0,1,1), new Tuple(0,1,0));
+        	slopeDeformations.put(new Tuple(1,1,1), new Tuple(1,0,0));*/
+        	
+        	/*
         	VertexLight.addVertex(bottomFace, Direction.down, coordinates, new Tuple(0,0,0), texUmin, texVmin, aoBrightness);
             VertexLight.addVertex(bottomFace, Direction.down, coordinates, new Tuple(1,0,0), texUmax, texVmin, aoBrightness);
             VertexLight.addVertex(bottomFace, Direction.down, coordinates, new Tuple(0,0,1), texUmax, texVmax, aoBrightness);
@@ -167,7 +195,7 @@ public class RenderDirtSlope implements ISimpleBlockRenderingHandler {
             VertexLight.addVertex(slopeFace, Direction.up, coordinates, new Tuple(0,0,1), texUmin, texVmax, aoBrightness);
             VertexLight.addVertex(slopeFace, Direction.up, coordinates, new Tuple(1,0,0), texUmax, texVmin, aoBrightness);
             VertexLight.addVertex(slopeFace, Direction.up, coordinates, new Tuple(1,0,0), texUmax, texVmin, aoBrightness);
-
+*/
             
         	break;
         }
@@ -176,5 +204,98 @@ public class RenderDirtSlope implements ISimpleBlockRenderingHandler {
         
 		return true;
 	}
+    
+    public void renderSlopedBlock(
+    		ArrayList<SlopeFace> slopeFaces,
+    		ArrayList<Tuple> vertexesToRemove,
+    		Tuple coordinates,
+    		int textureTop,
+    		int textureBottom,
+    		int textureSides,
+    		HashMap<Tuple, Integer> aoBrightness) {
+    	
+    	// TODO: calculate this from given texture id
+    	double texUmin = 0.125;
+        double texUmax = 0.1875;
+        double texVmin = 0;
+        double texVmax = 0.0625;
+        
+        //array of faces (direction facing outward) of vertexes
+        HashMap<Integer, ArrayList<Tuple>> faceVertexes = new HashMap<Integer, ArrayList<Tuple>>();
+        
+        // start the vertexes out in a cube configuration
+        for(int direction : Direction.all) {
+        	faceVertexes.put(direction, Tuple.getFaceVertexesOfCube(direction));
+        }
+
+        // remove the specified vertexes specified from the cube
+        // to sculpt the cut-out for the slope        
+        ListIterator it = vertexesToRemove.listIterator();
+        while (it.hasNext()) {
+            Tuple vertexToRemove = (Tuple)it.next();
+            for(int direction : Direction.all) {
+            	int indexToRemove = faceVertexes.get(direction).indexOf(vertexToRemove);
+            	if(indexToRemove != -1) {
+            		faceVertexes.get(direction).remove(indexToRemove);
+            	}
+            }
+        }
+        
+        
+        for(int direction : Direction.all) {
+    		// add an extra vertex to faces with 3, since Minecraft seems to like 4-sided polygons
+            // just duplicate the last vertex
+    		if(faceVertexes.get(direction).size() == 3) {
+    			faceVertexes.get(direction).add(new Tuple(faceVertexes.get(direction).get(2)));
+    		}
+        	
+        	// remove faces with no area
+            // faces with 2 or fewer vertexes will be removed
+        	if(faceVertexes.get(direction).size() <= 2) {
+        		faceVertexes.remove(direction);
+        	}
+        }
+        
+        
+        
+        
+        HashMap<Integer, Tessellator> tess = new HashMap<Integer, Tessellator>();
+        for(int direction : Direction.all) {
+        	
+        	// we may have removed faces due to them deforming to nothing
+        	if(!faceVertexes.containsKey(direction)) continue;
+        	
+        	tess.put(direction, Tessellator.instance);
+        	for(Tuple tuple : faceVertexes.get(direction)) {
+        		VertexLight.addVertex(
+        				tess.get(direction), 
+        				direction, 
+        				coordinates, 
+        				tuple, 
+        				texUmin + (texUmax - texUmin) * tuple.getTextureU(direction), 
+        				texVmin + (texVmax - texVmin) * tuple.getTextureV(direction), 
+        				aoBrightness);
+        	}
+        }
+        
+        // finally, render our slopes, the 7th-and-up faces for our cube
+        int faceId = 7;
+        for(SlopeFace slope : slopeFaces) {
+        	
+        	tess.put(faceId, Tessellator.instance);
+        	for(Tuple tuple : slope.vertexes) {
+        		VertexLight.addVertex(
+        				tess.get(faceId), 
+        				slope.direction, 
+        				coordinates, 
+        				tuple, 
+        				texUmin + (texUmax - texUmin) * tuple.getTextureU(slope.direction), 
+        				texVmin + (texVmax - texVmin) * tuple.getTextureV(slope.direction), 
+        				aoBrightness);
+        	}
+        	faceId++;
+        }
+        
+    }
 
 }
