@@ -28,10 +28,14 @@ public class Arc {
 	public static Block grassSlope;
 	public static int grassSlopeId = 4003;
 	public static Block dirtSlope;
-	public static Block dirtSlopeMeta;
+	public static Block dirtSlope2;
+	public static Block dirtSlope3;
 	public static int dirtSlopeId = 4004;
+	public static int dirtSlopeId2 = 4005;
+	public static int dirtSlopeId3 = 4006;
 	public static int dirtSlopeRenderId = 4004;
-	
+	public static int dirtSlopeRenderId2 = 4005;
+	public static int dirtSlopeRenderId3 = 4006;
 
 	@SidedProxy(clientSide = "net.arcadian83.client.ClientProxyArc",
 			    serverSide = "net.arcadian83.common.CommonProxyArc")
@@ -40,6 +44,7 @@ public class Arc {
 	@Init
 	public void load(FMLInitializationEvent event) {
 		proxy.registerRenderInformation(); //You have to call the methods in your proxy class
+		GameRegistry.registerTileEntity(ExtraMetadata.class, "extraMetadata");
 		
 		testBlock = new BlockTestBlock(testBlockId, 0).setBlockName("Test Block");
 		GameRegistry.registerBlock(testBlock);
@@ -55,20 +60,40 @@ public class Arc {
 		LanguageRegistry.addName(grassSlab, "Grass Slab");
 		grassSlab.setStepSound(Block.soundGrassFootstep);
 		
-		dirtSlope = new BlockDirtSlope(dirtSlopeId, 1).setBlockName("Dirt Slope").setHardness(0.5F);
+		dirtSlope = new BlockDirtSlope(dirtSlopeId, 1).setBlockName("Dirt Slope").setHardness(0.5F).setStepSound(Block.soundGravelFootstep);
+		dirtSlope2 = new BlockDirtSlopeMeta2(dirtSlopeId2, 1).setBlockName("Dirt Slope 2").setHardness(0.5F).setStepSound(Block.soundGravelFootstep);
+		dirtSlope3 = new BlockDirtSlopeMeta3(dirtSlopeId3, 1).setBlockName("Dirt Slope 3").setHardness(0.5F).setStepSound(Block.soundGravelFootstep);
 		GameRegistry.registerBlock(dirtSlope, ItemDirtSlope.class);
+		GameRegistry.registerBlock(dirtSlope2, ItemDirtSlope2.class);
+		GameRegistry.registerBlock(dirtSlope3, ItemDirtSlope3.class);
 		LanguageRegistry.addName(dirtSlope, "Dirt Slope");
-		dirtSlope.setStepSound(Block.soundGravelFootstep);
-		GameRegistry.registerTileEntity(ExtraMetadata.class, "extraMetadata");
+		LanguageRegistry.addName(dirtSlope2, "Dirt Slope 2");
+		LanguageRegistry.addName(dirtSlope3, "Dirt Slope 3");
+
 		
 		
-		Iterator it = BlockDirtSlope.metaNames.entrySet().iterator();	
-		while (it.hasNext()) {
-	        Entry entry = (Entry)it.next();
-			ItemStack is = new ItemStack(dirtSlope,1,(Integer)entry.getKey());
-			LanguageRegistry.addName(is,(String)entry.getValue() + " metaName");
-			dirtSlope.setCreativeTab(CreativeTabs.tabBlock);
+		for(int i = 0; i < 16; i++) {
+			if(BlockDirtSlope.metaNames.containsKey(i)) {
+				ItemStack is = new ItemStack(dirtSlope,1,i);
+				LanguageRegistry.addName(is,BlockDirtSlope.metaNames.get(i));
+				dirtSlope.setCreativeTab(CreativeTabs.tabBlock);
+			}
 		}
+		for(int i = 0; i < 16; i++) {
+			if(BlockDirtSlope.metaNames.containsKey(i + 16)) {
+				ItemStack is = new ItemStack(dirtSlope2,1,i);
+				LanguageRegistry.addName(is,BlockDirtSlope.metaNames.get(i + 16));
+				dirtSlope2.setCreativeTab(CreativeTabs.tabBlock);
+			}
+		}
+		for(int i = 0; i < 16; i++) {
+			if(BlockDirtSlope.metaNames.containsKey(i + 32)) {
+				ItemStack is = new ItemStack(dirtSlope3,1,i);
+				LanguageRegistry.addName(is,BlockDirtSlope.metaNames.get(i + 32));
+				dirtSlope3.setCreativeTab(CreativeTabs.tabBlock);
+			}
+		}
+
 		
 //		dirtSlopeMeta = new BlockDirtSlope(dirtSlopeId, 1).setBlockName("Dirt Slope meta").setHardness(0.5F);
 //		GameRegistry.registerBlock(dirtSlopeMeta);

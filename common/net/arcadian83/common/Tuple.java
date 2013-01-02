@@ -132,9 +132,9 @@ public class Tuple implements Comparable<Tuple> {
 			case Direction.up:
 				return new ArrayList<Tuple>() {{
 					add(new Tuple(0,1,0));
-					add(new Tuple(1,1,0));
-					add(new Tuple(1,1,1));
 					add(new Tuple(0,1,1));
+					add(new Tuple(1,1,1));
+					add(new Tuple(1,1,0));
 				}};
 			case Direction.north:
 				return new ArrayList<Tuple>() {{
@@ -146,16 +146,16 @@ public class Tuple implements Comparable<Tuple> {
 			case Direction.south:
 				return new ArrayList<Tuple>() {{
 					add(new Tuple(1,0,1));
-				    add(new Tuple(1,1,1));
-				    add(new Tuple(0,1,1));
-				    add(new Tuple(0,0,1));
+					add(new Tuple(1,1,1));
+					add(new Tuple(0,1,1));
+					add(new Tuple(0,0,1));
 				}};
 			case Direction.east:
 				return new ArrayList<Tuple>() {{
 					add(new Tuple(1,0,1));
-				    add(new Tuple(1,1,1));
-				    add(new Tuple(1,1,0));
-				    add(new Tuple(1,0,0));
+					add(new Tuple(1,0,0));
+					add(new Tuple(1,1,0));
+					add(new Tuple(1,1,1));
 				}};
 			case Direction.west:
 			default:
@@ -198,4 +198,49 @@ public class Tuple implements Comparable<Tuple> {
 			return y;
 		}
 	}
+	
+	public void rotateClockwise() {
+		if(x == 0 && z == 0) {
+			x = 1; return;
+		}
+		if(x == 1 && z == 0) {
+			z = 1; return;
+		}
+		if(x == 1 && z == 1) {
+			x = 0; return;
+		}
+		if(x == 0 && z == 1) {
+			z = 0; return;
+		}
+	}
+	
+	public void rollNorth() {
+		if(y == 0 && z == 0) {
+			z = 1; return;
+		}
+		if(y == 1 && z == 0) {
+			y = 0; return;
+		}
+		if(y == 1 && z == 1) {
+			z = 0; return;
+		}
+		if(y == 0 && z == 1) {
+			y = 1; return;
+		}
+	}
+	
+	/*public void rotateCouterclockwise() {
+		if(x == 0 && z == 0) {
+			z = 1; return;
+		}
+		if(x == 1 && z == 0) {
+			x = 0; return;
+		}
+		if(x == 1 && z == 1) {
+			z = 0; return;
+		}
+		if(x == 0 && z == 1) {
+			x = 1; return;
+		}
+	}*/
 }

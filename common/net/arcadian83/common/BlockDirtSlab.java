@@ -7,6 +7,7 @@ import cpw.mods.fml.common.asm.SideOnly;
 import net.minecraft.src.Block;
 import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.EntityLiving;
+import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.Facing;
 import net.minecraft.src.IBlockAccess;
 import net.minecraft.src.Material;

@@ -5,8 +5,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import cpw.mods.fml.common.Side;
+import cpw.mods.fml.common.asm.SideOnly;
+
 import net.minecraft.src.Block;
 import net.minecraft.src.CreativeTabs;
+import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IBlockAccess;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
@@ -15,6 +19,8 @@ import net.minecraft.src.World;
 
 public class BlockDirtSlope extends Block {
 
+	private int metaOffset = 0;
+	
 	// named after the direction the slope faces outward toward
 	public static HashMap<Integer, String> metaNames = new HashMap<Integer, String>() {
 		{
@@ -89,33 +95,56 @@ public class BlockDirtSlope extends Block {
 		return true;
 	}
 
-	public void getSubBlocks(int i, CreativeTabs tab, List list) {
-		Iterator it = metaNames.entrySet().iterator();
-
-		while (it.hasNext()) {
-			Entry entry = (Entry) it.next();
-			list.add(new ItemStack(i, 1, (Integer) entry.getKey()));
-			// i.remove(); // avoids a ConcurrentModificationException
+	@SideOnly(Side.CLIENT)
+	public void getSubBlocks(int id, CreativeTabs tab, List list) {
+		
+		/*for(int i = getMetaOffset(); i < getMetaOffset() + 16; i++) {
+			if(metaNames.containsKey(i)) {
+				list.add(new ItemStack(id, 1, i));
+			}
+		}*/
+		for(int i = 0; i < 16; i++) {
+			
+				list.add(new ItemStack(id, 1, i));
 		}
+		
 	}
 
-	public boolean hasTileEntity(int metadata) {
+	public int getMetaOffset() {
+		return metaOffset;
+	}
+	
+	@Override
+	public int damageDropped(int meta) {
+		return meta;
+	}
+	
+	/*public boolean hasTileEntity(int metadata) {
 		return true;
 	}
 
 	@Override
-	public TileEntity createTileEntity(World world, int metadata) {
+	public TileEntity createNewTileEntity(World world) {
 		try {
 			return new ExtraMetadata();
-		} catch (Exception var3) {
-			throw new RuntimeException(var3);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 
-	public void onSetBlockIDWithMetaData(World world, int x, int y, int z, int meta) {
-		ExtraMetadata tileEntity = (ExtraMetadata) world.getBlockTileEntity(x, y, z);
-		tileEntity.setMeta(meta);
-	}
-
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9) {
+		int meta = ((ExtraMetadata)world.getBlockTileEntity(x, y, z)).meta;
+		
+		
+		System.out.println("onBlockActivated GETMETA " + meta + " AT (" + x + "," + y + "," + z + ")");
+		return true;
+	}*/
+	
+	/*public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving living) {
+		
+	}*/
+	
 	// TODO: place block with direction based on from BlockSlopes_Kaevator.blockActivated()
+
 }

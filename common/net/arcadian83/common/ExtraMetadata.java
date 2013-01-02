@@ -2,24 +2,38 @@ package net.arcadian83.common;
 
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
+import net.minecraft.src.World;
 
 public class ExtraMetadata extends TileEntity {
-	int meta = 0;
+	
+	public int meta = 0;
 
+	//public ExtraMetadata(){}
+	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		this.meta = nbt.getInteger("meta");
+		meta = nbt.getInteger("meta");
+		//System.out.println("NBT READ: " + meta);
+		//int test = meta;
+		//blockMetadata = meta;
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
+		//meta = blockMetadata;
 		nbt.setInteger("meta", meta);
+		//System.out.println("NBT WRITE: " + meta);
+		
 	}
 	
 	public void setMeta(int meta) {
+		//World world = getWorldObj();
+		//world.setBlockMetadata(xCoord, yCoord, zCoord, meta);
 		this.meta = meta;
+		
+		
 	}
 	
 	public int getMeta() {
@@ -41,4 +55,11 @@ public class ExtraMetadata extends TileEntity {
 				+ visitor5);
 		world.notifyBlockChange(xCoord, yCoord, zCoord, 2);
 	}*/
+	
+	//public void updateEntity() {
+		//worldObj.setBlockMetadata(xCoord, yCoord, zCoord, meta);
+		//System.out.println("UPDATE ENTITY  (" + xCoord + "," + yCoord + "," + zCoord + ") meta: " + meta);
+	//}
+	
+	
 }

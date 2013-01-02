@@ -17,4 +17,24 @@ public class Direction {
 			add(Direction.east);
 			add(Direction.west);
 		}};
+		
+	public static int rotateClockwise(int direction) {
+		switch(direction) {
+			case north: return east;
+			case east: return south;
+			case south: return west;
+			case west: return north;
+		}
+		return direction;
+	}
+	
+	public static int rollNorth(int direction) {
+		switch(direction) {
+			case down: return south; 
+			case up: return north;
+			case north: return down;
+			case south: return up;
+		}
+		return direction;
+	}
 }

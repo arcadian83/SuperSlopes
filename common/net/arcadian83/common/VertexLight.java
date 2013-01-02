@@ -66,7 +66,14 @@ public class VertexLight {
 		return totalBrightness >> 2 & 16711935;
 	}
 	
-	public static void addVertex(Tessellator tess, int lightingDirection, Tuple coordinates, Tuple offset, double textureU, double textureV, HashMap<Tuple, Integer>aoBrightness) {
+	public static void addVertex(
+			Tessellator tess,
+			int lightingDirection,
+			Tuple coordinates,
+			Tuple offset,
+			double textureU,
+			double textureV,
+			HashMap<Tuple, Integer>aoBrightness) {
 		tess.setBrightness(VertexLight.getBrightnessAtFaceCorner(lightingDirection, offset, aoBrightness));
 		// TODO: actually calculate color
 		//bottomFace.setColorOpaque_F(renderer.colorRedTopLeft, renderer.colorGreenTopLeft, renderer.colorBlueTopLeft);
