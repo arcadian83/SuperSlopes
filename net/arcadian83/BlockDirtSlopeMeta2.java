@@ -1,8 +1,5 @@
-package net.arcadian83.common;
+package net.arcadian83;
 
-import java.util.HashMap;
-
-import net.minecraft.src.Material;
 
 public class BlockDirtSlopeMeta2 extends BlockDirtSlope{
 

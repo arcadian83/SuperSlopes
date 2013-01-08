@@ -1,8 +1,5 @@
-package net.arcadian83.common;
+package net.arcadian83;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.IBlockAccess;
-import net.minecraft.src.RenderBlocks;
 
 
 public class RenderDirtSlope2 extends RenderDirtSlope {

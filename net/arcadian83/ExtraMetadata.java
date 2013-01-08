@@ -1,8 +1,7 @@
-package net.arcadian83.common;
+package net.arcadian83;
 
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.World;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 
 public class ExtraMetadata extends TileEntity {
 	

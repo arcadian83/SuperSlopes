@@ -1,11 +1,8 @@
-package net.arcadian83.common;
+package net.arcadian83;
 
-import java.util.Iterator;
-import java.util.Map.Entry;
-
-import net.minecraft.src.Block;
-import net.minecraft.src.CreativeTabs;
-import net.minecraft.src.ItemStack;
+import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.SidedProxy;
@@ -37,8 +34,8 @@ public class Arc {
 	public static int dirtSlopeRenderId2 = 4005;
 	public static int dirtSlopeRenderId3 = 4006;
 
-	@SidedProxy(clientSide = "net.arcadian83.client.ClientProxyArc",
-			    serverSide = "net.arcadian83.common.CommonProxyArc")
+	@SidedProxy(clientSide = "net.arcadian83.ClientProxyArc",
+			    serverSide = "net.arcadian83.CommonProxyArc")
     public static CommonProxyArc proxy;
 	
 	@Init
@@ -47,25 +44,25 @@ public class Arc {
 		GameRegistry.registerTileEntity(ExtraMetadata.class, "extraMetadata");
 		
 		testBlock = new BlockTestBlock(testBlockId, 0).setBlockName("Test Block");
-		GameRegistry.registerBlock(testBlock);
+		GameRegistry.registerBlock(testBlock, "arcadian83_testBlock");
 		LanguageRegistry.addName(testBlock, "Test Block");
 		
 		dirtSlab = new BlockDirtSlab(dirtSlabId, 2).setBlockName("Dirt Slab").setHardness(0.5F);
-		GameRegistry.registerBlock(dirtSlab);
+		GameRegistry.registerBlock(dirtSlab, "arcadian83_dirtSlab");
 		LanguageRegistry.addName(dirtSlab, "Dirt Slab");
 		dirtSlab.setStepSound(Block.soundGravelFootstep);
 		
 		grassSlab = new BlockGrassSlab(grassSlabId, 1).setBlockName("Grass Slab").setHardness(0.6F);
-		GameRegistry.registerBlock(grassSlab);
+		GameRegistry.registerBlock(grassSlab, "arcadian83_grassSlab");
 		LanguageRegistry.addName(grassSlab, "Grass Slab");
 		grassSlab.setStepSound(Block.soundGrassFootstep);
 		
 		dirtSlope = new BlockDirtSlope(dirtSlopeId, 1).setBlockName("Dirt Slope").setHardness(0.5F).setStepSound(Block.soundGravelFootstep);
 		dirtSlope2 = new BlockDirtSlopeMeta2(dirtSlopeId2, 1).setBlockName("Dirt Slope 2").setHardness(0.5F).setStepSound(Block.soundGravelFootstep);
 		dirtSlope3 = new BlockDirtSlopeMeta3(dirtSlopeId3, 1).setBlockName("Dirt Slope 3").setHardness(0.5F).setStepSound(Block.soundGravelFootstep);
-		GameRegistry.registerBlock(dirtSlope, ItemDirtSlope.class);
-		GameRegistry.registerBlock(dirtSlope2, ItemDirtSlope2.class);
-		GameRegistry.registerBlock(dirtSlope3, ItemDirtSlope3.class);
+		GameRegistry.registerBlock(dirtSlope, ItemDirtSlope.class, "arcadian83_dirtSlope");
+		GameRegistry.registerBlock(dirtSlope2, ItemDirtSlope2.class, "arcadian83_dirtSlope2");
+		GameRegistry.registerBlock(dirtSlope3, ItemDirtSlope3.class, "arcadian83_dirtSlope3");
 		LanguageRegistry.addName(dirtSlope, "Dirt Slope");
 		LanguageRegistry.addName(dirtSlope2, "Dirt Slope 2");
 		LanguageRegistry.addName(dirtSlope3, "Dirt Slope 3");

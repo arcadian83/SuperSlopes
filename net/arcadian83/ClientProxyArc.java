@@ -1,10 +1,5 @@
-package net.arcadian83.client;
+package net.arcadian83;
 
-import net.arcadian83.common.CommonProxyArc;
-import net.arcadian83.common.RenderDirtSlope;
-import net.arcadian83.common.RenderDirtSlope2;
-import net.arcadian83.common.RenderDirtSlope3;
-import net.arcadian83.common.RenderGrassSlab;
 import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 

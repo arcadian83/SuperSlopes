@@ -1,10 +1,10 @@
-package net.arcadian83.common;
+package net.arcadian83;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import net.minecraft.src.Tessellator;
+import net.minecraft.client.renderer.Tessellator;
 
 public class VertexLight {
 	

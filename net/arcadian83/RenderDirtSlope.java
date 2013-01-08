@@ -1,13 +1,13 @@
-package net.arcadian83.common;
+package net.arcadian83;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ListIterator;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.IBlockAccess;
-import net.minecraft.src.RenderBlocks;
-import net.minecraft.src.Tessellator;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public class RenderDirtSlope implements ISimpleBlockRenderingHandler {

@@ -1,10 +1,10 @@
-package net.arcadian83.common;
+package net.arcadian83;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.Block;
-import net.minecraft.src.EntityRenderer;
-import net.minecraft.src.RenderBlocks;
-import net.minecraft.src.Tessellator;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.Tessellator;
 
 /**
  * This class exists to override RenderBlocks's methods, because they detect
@@ -79,32 +79,32 @@ public class RenderColoredGrass {
         int var24 = var19;
         int var25 = var19;
 
-        if (renderer.field_83027_i <= 0.0D)
+        if (renderer.customMinY <= 0.0D)
         {
             var21 = block.getMixedBrightnessForBlock(renderer.blockAccess, x, y - 1, z);
         }
 
-        if (renderer.field_83024_j >= 1.0D)
+        if (renderer.customMaxY >= 1.0D)
         {
             var24 = block.getMixedBrightnessForBlock(renderer.blockAccess, x, y + 1, z);
         }
 
-        if (renderer.field_83021_g <= 0.0D)
+        if (renderer.customMinX <= 0.0D)
         {
             var20 = block.getMixedBrightnessForBlock(renderer.blockAccess, x - 1, y, z);
         }
 
-        if (renderer.field_83026_h >= 1.0D)
+        if (renderer.customMaxX >= 1.0D)
         {
             var23 = block.getMixedBrightnessForBlock(renderer.blockAccess, x + 1, y, z);
         }
 
-        if (renderer.field_83025_k <= 0.0D)
+        if (renderer.customMinZ <= 0.0D)
         {
             var22 = block.getMixedBrightnessForBlock(renderer.blockAccess, x, y, z - 1);
         }
 
-        if (renderer.field_83022_l >= 1.0D)
+        if (renderer.customMaxZ >= 1.0D)
         {
             var25 = block.getMixedBrightnessForBlock(renderer.blockAccess, x, y, z + 1);
         }
@@ -136,7 +136,7 @@ public class RenderColoredGrass {
         {
             if (renderer.aoType > 0)
             {
-                if (renderer.field_83027_i <= 0.0D)
+                if (renderer.customMinY <= 0.0D)
                 {
                     --y;
                 }
@@ -194,7 +194,7 @@ public class RenderColoredGrass {
                     renderer.aoBrightnessXYZPNP = block.getMixedBrightnessForBlock(renderer.blockAccess, x + 1, y, z + 1);
                 }
 
-                if (renderer.field_83027_i <= 0.0D)
+                if (renderer.customMinY <= 0.0D)
                 {
                     ++y;
                 }
@@ -240,7 +240,7 @@ public class RenderColoredGrass {
         {
             if (renderer.aoType > 0)
             {
-                if (renderer.field_83024_j >= 1.0D)
+                if (renderer.customMaxY >= 1.0D)
                 {
                     ++y;
                 }
@@ -298,7 +298,7 @@ public class RenderColoredGrass {
                     renderer.aoBrightnessXYZPPP = block.getMixedBrightnessForBlock(renderer.blockAccess, x + 1, y, z + 1);
                 }
 
-                if (renderer.field_83024_j >= 1.0D)
+                if (renderer.customMaxY >= 1.0D)
                 {
                     --y;
                 }
@@ -347,7 +347,7 @@ public class RenderColoredGrass {
         	
         	if (renderer.aoType > 0)
             {
-                if (renderer.field_83025_k <= 0.0D)
+                if (renderer.customMinZ <= 0.0D)
                 {
                     --z;
                 }
@@ -405,7 +405,7 @@ public class RenderColoredGrass {
                     renderer.aoBrightnessXYZPPN = block.getMixedBrightnessForBlock(renderer.blockAccess, x + 1, y + 1, z);
                 }
 
-                if (renderer.field_83025_k <= 0.0D)
+                if (renderer.customMinZ <= 0.0D)
                 {
                     ++z;
                 }
@@ -470,7 +470,7 @@ public class RenderColoredGrass {
         {
             if (renderer.aoType > 0)
             {
-                if (renderer.field_83022_l >= 1.0D)
+                if (renderer.customMaxZ >= 1.0D)
                 {
                     ++z;
                 }
@@ -528,7 +528,7 @@ public class RenderColoredGrass {
                     renderer.aoBrightnessXYZPPP = block.getMixedBrightnessForBlock(renderer.blockAccess, x + 1, y + 1, z);
                 }
 
-                if (renderer.field_83022_l >= 1.0D)
+                if (renderer.customMaxZ >= 1.0D)
                 {
                     --z;
                 }
@@ -593,7 +593,7 @@ public class RenderColoredGrass {
         {
             if (renderer.aoType > 0)
             {
-                if (renderer.field_83021_g <= 0.0D)
+                if (renderer.customMinX <= 0.0D)
                 {
                     --x;
                 }
@@ -651,7 +651,7 @@ public class RenderColoredGrass {
                     renderer.aoBrightnessXYZNPP = block.getMixedBrightnessForBlock(renderer.blockAccess, x, y + 1, z + 1);
                 }
 
-                if (renderer.field_83021_g <= 0.0D)
+                if (renderer.customMinX <= 0.0D)
                 {
                     ++x;
                 }
@@ -716,7 +716,7 @@ public class RenderColoredGrass {
         {
             if (renderer.aoType > 0)
             {
-                if (renderer.field_83026_h >= 1.0D)
+                if (renderer.customMaxX >= 1.0D)
                 {
                     ++x;
                 }
@@ -774,7 +774,7 @@ public class RenderColoredGrass {
                     renderer.aoBrightnessXYZPPP = block.getMixedBrightnessForBlock(renderer.blockAccess, x, y + 1, z + 1);
                 }
 
-                if (renderer.field_83026_h >= 1.0D)
+                if (renderer.customMaxX >= 1.0D)
                 {
                     --x;
                 }
@@ -882,7 +882,7 @@ public class RenderColoredGrass {
 
         if (renderer.renderAllFaces || par1Block.shouldSideBeRendered(renderer.blockAccess, par2, par3 - 1, par4, 0))
         {
-            var8.setBrightness(renderer.field_83027_i > 0.0D ? var26 : par1Block.getMixedBrightnessForBlock(renderer.blockAccess, par2, par3 - 1, par4));
+            var8.setBrightness(renderer.customMinY > 0.0D ? var26 : par1Block.getMixedBrightnessForBlock(renderer.blockAccess, par2, par3 - 1, par4));
             var8.setColorOpaque_F(var17, var20, var23);
             renderer.renderBottomFace(par1Block, (double)par2, (double)par3, (double)par4, par1Block.getBlockTexture(renderer.blockAccess, par2, par3, par4, 0));
             var9 = true;
@@ -890,7 +890,7 @@ public class RenderColoredGrass {
 
         if (renderer.renderAllFaces || par1Block.shouldSideBeRendered(renderer.blockAccess, par2, par3 + 1, par4, 1))
         {
-            var8.setBrightness(renderer.field_83024_j < 1.0D ? var26 : par1Block.getMixedBrightnessForBlock(renderer.blockAccess, par2, par3 + 1, par4));
+            var8.setBrightness(renderer.customMaxY < 1.0D ? var26 : par1Block.getMixedBrightnessForBlock(renderer.blockAccess, par2, par3 + 1, par4));
             var8.setColorOpaque_F(var14, var15, var16);
             renderer.renderTopFace(par1Block, (double)par2, (double)par3, (double)par4, par1Block.getBlockTexture(renderer.blockAccess, par2, par3, par4, 1));
             var9 = true;
@@ -900,7 +900,7 @@ public class RenderColoredGrass {
 
         if (renderer.renderAllFaces || par1Block.shouldSideBeRendered(renderer.blockAccess, par2, par3, par4 - 1, 2))
         {
-            var8.setBrightness(renderer.field_83025_k > 0.0D ? var26 : par1Block.getMixedBrightnessForBlock(renderer.blockAccess, par2, par3, par4 - 1));
+            var8.setBrightness(renderer.customMinZ > 0.0D ? var26 : par1Block.getMixedBrightnessForBlock(renderer.blockAccess, par2, par3, par4 - 1));
             var8.setColorOpaque_F(var18, var21, var24);
             var28 = par1Block.getBlockTexture(renderer.blockAccess, par2, par3, par4, 2);
             renderer.renderEastFace(par1Block, (double)par2, (double)par3, (double)par4, var28);
@@ -916,7 +916,7 @@ public class RenderColoredGrass {
 
         if (renderer.renderAllFaces || par1Block.shouldSideBeRendered(renderer.blockAccess, par2, par3, par4 + 1, 3))
         {
-            var8.setBrightness(renderer.field_83022_l < 1.0D ? var26 : par1Block.getMixedBrightnessForBlock(renderer.blockAccess, par2, par3, par4 + 1));
+            var8.setBrightness(renderer.customMaxZ < 1.0D ? var26 : par1Block.getMixedBrightnessForBlock(renderer.blockAccess, par2, par3, par4 + 1));
             var8.setColorOpaque_F(var18, var21, var24);
             var28 = par1Block.getBlockTexture(renderer.blockAccess, par2, par3, par4, 3);
             renderer.renderWestFace(par1Block, (double)par2, (double)par3, (double)par4, var28);
@@ -932,7 +932,7 @@ public class RenderColoredGrass {
 
         if (renderer.renderAllFaces || par1Block.shouldSideBeRendered(renderer.blockAccess, par2 - 1, par3, par4, 4))
         {
-            var8.setBrightness(renderer.field_83021_g > 0.0D ? var26 : par1Block.getMixedBrightnessForBlock(renderer.blockAccess, par2 - 1, par3, par4));
+            var8.setBrightness(renderer.customMinX > 0.0D ? var26 : par1Block.getMixedBrightnessForBlock(renderer.blockAccess, par2 - 1, par3, par4));
             var8.setColorOpaque_F(var19, var22, var25);
             var28 = par1Block.getBlockTexture(renderer.blockAccess, par2, par3, par4, 4);
             renderer.renderNorthFace(par1Block, (double)par2, (double)par3, (double)par4, var28);
@@ -948,7 +948,7 @@ public class RenderColoredGrass {
 
         if (renderer.renderAllFaces || par1Block.shouldSideBeRendered(renderer.blockAccess, par2 + 1, par3, par4, 5))
         {
-            var8.setBrightness(renderer.field_83026_h < 1.0D ? var26 : par1Block.getMixedBrightnessForBlock(renderer.blockAccess, par2 + 1, par3, par4));
+            var8.setBrightness(renderer.customMaxX < 1.0D ? var26 : par1Block.getMixedBrightnessForBlock(renderer.blockAccess, par2 + 1, par3, par4));
             var8.setColorOpaque_F(var19, var22, var25);
             var28 = par1Block.getBlockTexture(renderer.blockAccess, par2, par3, par4, 5);
             renderer.renderSouthFace(par1Block, (double)par2, (double)par3, (double)par4, var28);

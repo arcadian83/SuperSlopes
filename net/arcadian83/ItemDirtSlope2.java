@@ -1,6 +1,5 @@
-package net.arcadian83.common;
+package net.arcadian83;
 
-import net.minecraft.src.ItemStack;
 
 public class ItemDirtSlope2 extends ItemDirtSlope {
 	

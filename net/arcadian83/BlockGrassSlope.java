@@ -1,8 +1,8 @@
-package net.arcadian83.common;
+package net.arcadian83;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.CreativeTabs;
-import net.minecraft.src.Material;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 
 public class BlockGrassSlope extends Block{
 

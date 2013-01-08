@@ -1,4 +1,4 @@
-package net.arcadian83.common;
+package net.arcadian83;
 
 
 
