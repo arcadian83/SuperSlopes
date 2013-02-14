@@ -13,6 +13,9 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 public class RenderDirtSlope implements ISimpleBlockRenderingHandler {
 
 	private int metaOffset = 0;
+	private boolean manualDraw = false; // needed to determine whether we have to use Tessellator.draw() explicitly.
+	// Doing this with inventory render is needed, but doing it with world render causes an "already tessellating" exception.
+	// TODO: find a cleaner way, without this non-obvious variable, but also without passing it around everywhere in arguments
 	
 	@Override
 	public int getRenderId() {
@@ -26,16 +29,76 @@ public class RenderDirtSlope implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
-		// TODO
+		// intentionally empty
+	}
+	
+	public void renderInventoryBlock(int metadata, RenderBlocks renderer) {
+		manualDraw = true;
+		
+		int extendedMeta = metadata + getMetaOffset();
+		
+		// for rendering the item we don't have world-related data, so give it some fake values
+		
+		Tuple coordinates = new Tuple(0,0,0);
+		
+		HashMap<Tuple, Float> aoLightValue = new HashMap<Tuple, Float>();
+    	HashMap<Tuple, Integer> aoBrightness = new HashMap<Tuple, Integer>();
+    	
+    	for(int zRel = -1; zRel <= 1; zRel++) {
+    		for(int yRel = -1; yRel <= 1; yRel++) {
+    			for(int xRel = -1; xRel <= 1; xRel++) {
+    				aoLightValue.put(new Tuple(xRel, yRel, zRel), 32700000f);
+    				aoBrightness.put(new Tuple(xRel, yRel, zRel), 1570000000);
+    			}
+        	}
+    	}
+    	
+    	renderAO(extendedMeta, coordinates, renderer, aoLightValue, aoBrightness);
+    	
+    	Tessellator tess = Tessellator.instance;
+    	
+    	/*tess.startDrawing(7);
+    	tess.addVertexWithUV(0, 0, 0, 0, 0);
+    	tess.addVertexWithUV(1, 0, 0, 1, 0);
+    	tess.addVertexWithUV(1, 0, 1, 1, 1);
+    	tess.addVertexWithUV(0, 0, 1, 0, 1);
+    	tess.draw();*/
+    	
+    	tess.startDrawing(7);
+    	tess.addVertexWithUV(0, 0, 0, 0, 0);
+    	tess.addVertexWithUV(0, 0, 1, 0, 1);
+    	tess.addVertexWithUV(1, 1, 1, 1, 1);
+    	tess.addVertexWithUV(1, 0, 0, 1, 0);
+    	tess.draw();
+    	
+    	
 	}
 
 	@Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
-    	return renderWorldBlockAO(world ,x , y, z, block, modelId, renderer);
+		manualDraw = false;
+		
+		int extendedMeta = world.getBlockMetadata(x, y, z) + getMetaOffset();
+    	//System.out.println("GETMETA " + meta + " AT (" + x + "," + y + "," + z + ")");
+    	
+    	Tuple coordinates = new Tuple(x,y,z);
+    	HashMap<Tuple, Float> aoLightValue = new HashMap<Tuple, Float>();
+    	HashMap<Tuple, Integer> aoBrightness = new HashMap<Tuple, Integer>();
+    	
+    	for(int zRel = -1; zRel <= 1; zRel++) {
+    		for(int yRel = -1; yRel <= 1; yRel++) {
+    			for(int xRel = -1; xRel <= 1; xRel++) {
+    				aoLightValue.put(new Tuple(xRel, yRel, zRel), block.getAmbientOcclusionLightValue(world, x + xRel, y + yRel, z + zRel));
+    				aoBrightness.put(new Tuple(xRel, yRel, zRel), block.getMixedBrightnessForBlock(renderer.blockAccess,x + xRel, y + yRel, z + zRel));
+    			}
+        	}
+    	}
+		
+    	return renderAO(extendedMeta, coordinates, renderer, aoLightValue, aoBrightness);
     }
     
     
-    public boolean renderWorldBlockAO(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
+    public boolean renderAO(int extendedMeta, Tuple coordinates, RenderBlocks renderer, HashMap<Tuple, Float> aoLightValue, HashMap<Tuple, Integer> aoBrightness) {
     	renderer.enableAO = true;
     	
     	
@@ -59,21 +122,7 @@ public class RenderDirtSlope implements ISimpleBlockRenderingHandler {
     		return true;
     	}
     	int meta = extraMeta.meta;*/
-    	int extendedMeta = world.getBlockMetadata(x, y, z) + getMetaOffset();
-    	//System.out.println("GETMETA " + meta + " AT (" + x + "," + y + "," + z + ")");
     	
-    	Tuple coordinates = new Tuple(x,y,z);
-    	HashMap<Tuple, Float> aoLightValue = new HashMap<Tuple, Float>();
-    	HashMap<Tuple, Integer> aoBrightness = new HashMap<Tuple, Integer>();
-    	
-    	for(int zRel = -1; zRel <= 1; zRel++) {
-    		for(int yRel = -1; yRel <= 1; yRel++) {
-    			for(int xRel = -1; xRel <= 1; xRel++) {
-    				aoLightValue.put(new Tuple(xRel, yRel, zRel), block.getAmbientOcclusionLightValue(world, x + xRel, y + yRel, z + zRel));
-    				aoBrightness.put(new Tuple(xRel, yRel, zRel), block.getMixedBrightnessForBlock(renderer.blockAccess,x + xRel, y + yRel, z + zRel));
-    			}
-        	}
-    	}
     	
     	// TODO simplify addition of color light vertex info
     	renderer.colorRedTopLeft = 0.5F;
@@ -619,7 +668,11 @@ public class RenderDirtSlope implements ISimpleBlockRenderingHandler {
         	if(!faceVertexes.containsKey(direction)) continue;
         	
         	tess.put(direction, Tessellator.instance);
+        	if(manualDraw) {
+        		tess.get(direction).startDrawing(7);
+        	}
         	for(Tuple tuple : faceVertexes.get(direction)) {
+        		
         		VertexLight.addVertex(
         				tess.get(direction), 
         				direction, 
@@ -628,7 +681,12 @@ public class RenderDirtSlope implements ISimpleBlockRenderingHandler {
         				texUmin + (texUmax - texUmin) * tuple.getTextureU(direction), 
         				texVmin + (texVmax - texVmin) * tuple.getTextureV(direction), 
         				aoBrightness);
+        		
         	}
+        	if(manualDraw) {
+        		tess.get(direction).draw();
+        	}
+        	
         }
         
         // finally, render our slopes, the 7th-and-up faces for our cube
@@ -636,6 +694,9 @@ public class RenderDirtSlope implements ISimpleBlockRenderingHandler {
         for(SlopeFace slope : slopeFaces) {
         	
         	tess.put(faceId, Tessellator.instance);
+        	if(manualDraw) {
+        		tess.get(faceId).startDrawing(7);
+        	}
         	for(Vector vector : slope.vertexes) {
         		VertexLight.addVertex(
         				tess.get(faceId), 
@@ -645,6 +706,9 @@ public class RenderDirtSlope implements ISimpleBlockRenderingHandler {
         				texUmin + (texUmax - texUmin) * vector.loc.getTextureU(slope.direction), 
         				texVmin + (texVmax - texVmin) * vector.loc.getTextureV(slope.direction), 
         				aoBrightness);
+        	}
+        	if(manualDraw) {
+        		tess.get(faceId).draw();
         	}
         	faceId++;
         }

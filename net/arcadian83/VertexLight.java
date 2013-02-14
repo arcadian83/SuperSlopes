@@ -74,10 +74,10 @@ public class VertexLight {
 			double textureU,
 			double textureV,
 			HashMap<Tuple, Integer>aoBrightness) {
-		tess.setBrightness(VertexLight.getBrightnessAtFaceCorner(lightingDirection, offset, aoBrightness));
+		//tess.setBrightness(VertexLight.getBrightnessAtFaceCorner(lightingDirection, offset, aoBrightness));
 		// TODO: actually calculate color
 		//bottomFace.setColorOpaque_F(renderer.colorRedTopLeft, renderer.colorGreenTopLeft, renderer.colorBlueTopLeft);
-		tess.setColorOpaque_F(1.0F, 1.0F, 1.0F);
+		//tess.setColorOpaque_F(1.0F, 1.0F, 1.0F);
 		tess.addVertexWithUV(coordinates.x + offset.x, coordinates.y + offset.y, coordinates.z + offset.z, textureU, textureV);
 	}
 }

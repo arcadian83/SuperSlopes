@@ -33,6 +33,7 @@ public class Arc {
 	public static int dirtSlopeRenderId = 4004;
 	public static int dirtSlopeRenderId2 = 4005;
 	public static int dirtSlopeRenderId3 = 4006;
+	public static int slopeItemId = 4004;
 
 	@SidedProxy(clientSide = "net.arcadian83.ClientProxyArc",
 			    serverSide = "net.arcadian83.CommonProxyArc")
@@ -40,7 +41,8 @@ public class Arc {
 	
 	@Init
 	public void load(FMLInitializationEvent event) {
-		proxy.registerRenderInformation(); //You have to call the methods in your proxy class
+		proxy.registerRenderInformation();
+		
 		GameRegistry.registerTileEntity(ExtraMetadata.class, "extraMetadata");
 		
 		testBlock = new BlockTestBlock(testBlockId, 0).setBlockName("Test Block");

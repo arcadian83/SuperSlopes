@@ -5,6 +5,8 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxyArc extends CommonProxyArc{
 
+	public final static RenderSlopeItem slopeItemRenderer = new RenderSlopeItem();
+	
 	@Override
 	public void registerRenderInformation() 
     {
@@ -20,10 +22,6 @@ public class ClientProxyArc extends CommonProxyArc{
 		RenderDirtSlope3 renderDirtSlope3 = new RenderDirtSlope3();
 		RenderingRegistry.registerBlockHandler(renderDirtSlope3);
 		
-		// This variable renderId? this thing has got to be static somewhere. not necessarily public, but we need it available form everywhere. at the minimum we need public accessors. I personally have this variable as a public int in my common @mod class.
-	    // now set in Arc.common.Arc
-		// Arc.common.Arc.grassSlabRenderId = renderer.getRenderId();
+		MinecraftForgeClient.registerItemRenderer(Arc.slopeItemId, slopeItemRenderer);
     }
-	
-	
 }
